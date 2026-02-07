@@ -1,0 +1,16 @@
+.minimise {
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+  aspect-ratio: 1;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  position: absolute;
+  border: none;
+  background-color: #212529;
+  color: #dee2e6;
+  cursor: pointer;
+}

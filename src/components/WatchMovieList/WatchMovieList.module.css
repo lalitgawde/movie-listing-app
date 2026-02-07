@@ -1,0 +1,30 @@
+.watchList {
+  position: relative;
+  border-radius: 8px;
+  background-color: #2b3035;
+}
+
+.watchList ul {
+  list-style: none;
+  padding: 0.8rem 0;
+  overflow: auto;
+}
+
+.watchList-header {
+  padding: 1rem 2rem;
+  /* border-bottom: 1px solid #212529; */
+  border-radius: 8px 8px 0 0;
+  background-color: #343a40;
+}
+
+.watchList-header h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.minimise {
+  top: 0.8rem;
+  right: 0.8rem;
+}
