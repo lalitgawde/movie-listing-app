@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* .minimise {
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  border: none;
+  background-color: #212529;
+  color: #dee2e6;
+  cursor: pointer;
+} */
+

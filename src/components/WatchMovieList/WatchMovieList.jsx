@@ -7,12 +7,15 @@ import Stats from "../Stats/Stats";
 
 function WatchMovieList() {
   const length = tempWatchedData.length;
-  const imdbRating =
-    tempWatchedData.reduce((acc, movie) => acc + movie.imdbRating, 0) / length;
-  const userRating =
-    tempWatchedData.reduce((acc, movie) => acc + movie.userRating, 0) / length;
-  const runtime =
-    tempWatchedData.reduce((acc, movie) => acc + movie.runtime, 0) / length;
+  const imdbRating = Math.round(
+    tempWatchedData.reduce((acc, movie) => acc + movie.imdbRating, 0) / length,
+  );
+  const userRating = Math.round(
+    tempWatchedData.reduce((acc, movie) => acc + movie.userRating, 0) / length,
+  );
+  const runtime = Math.round(
+    tempWatchedData.reduce((acc, movie) => acc + movie.runtime, 0) / length,
+  );
 
   return (
     <div className={styles["watchList"]}>
