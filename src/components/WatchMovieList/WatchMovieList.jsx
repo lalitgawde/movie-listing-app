@@ -18,19 +18,24 @@ function WatchMovieList({ selectedId, handleCloseMovie }) {
   }, [watchedMovies]);
 
   const length = watchedMovies.length;
-  const imdbRating = Math.round(
-    watchedMovies.reduce((acc, movie) => acc + Number(movie.imdbRating), 0) /
-      length,
-  );
-  const userRating = Math.round(
-    watchedMovies.reduce((acc, movie) => acc + movie.userRating, 0) / length,
-  );
-  const runtime = Math.round(
-    watchedMovies.reduce(
-      (acc, movie) => acc + Number(movie.Runtime.split(" ")[0]),
-      0,
-    ) / length,
-  );
+  let imdbRating = 0;
+  let userRating = 0;
+  let runtime = 0;
+  if (length > 0) {
+    imdbRating = Math.round(
+      watchedMovies.reduce((acc, movie) => acc + Number(movie.imdbRating), 0) /
+        length,
+    );
+    userRating = Math.round(
+      watchedMovies.reduce((acc, movie) => acc + movie.userRating, 0) / length,
+    );
+    runtime = Math.round(
+      watchedMovies.reduce(
+        (acc, movie) => acc + Number(movie.Runtime.split(" ")[0]),
+        0,
+      ) / length,
+    );
+  }
 
   const onAddWatchList = (movie) => {
     setWatchedMovies((prevMovies) => [...prevMovies, movie]);
