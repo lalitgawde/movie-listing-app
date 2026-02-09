@@ -5,7 +5,7 @@ import WatchMovieList from "./components/WatchMovieList/WatchMovieList";
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=79d86d9d
 function App() {
-  const [selectedId, setSelectedId] = useState("tt3896198");
+  const [selectedId, setSelectedId] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [count, setCount] = useState(0);
 
