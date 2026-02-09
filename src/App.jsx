@@ -3,20 +3,44 @@ import MovieList from "./components/MovieList/MovieList";
 import NavBar from "./components/NavBar/NavBar";
 import WatchMovieList from "./components/WatchMovieList/WatchMovieList";
 
+// http://www.omdbapi.com/?i=tt3896198&apikey=79d86d9d
 function App() {
+  const [selectedId, setSelectedId] = useState("tt3896198");
   const [searchInput, setSearchInput] = useState("");
-  const InputChangeHandler = (e) => {
+  const [count, setCount] = useState(0);
+
+  function InputChangeHandler(e) {
     setSearchInput(e.target.value);
-  };
+  }
+
+  function handleSelectMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
   return (
     <div className="app">
-      <NavBar search={searchInput} onChange={InputChangeHandler} />
+      <NavBar
+        search={searchInput}
+        onChange={InputChangeHandler}
+        count={count}
+      />
       <main className="main">
-        <MovieList />
-        <WatchMovieList />
+        <MovieList
+          search={searchInput}
+          setCount={setCount}
+          handleSelectMovie={handleSelectMovie}
+        />
+        <WatchMovieList
+          selectedId={selectedId}
+          handleCloseMovie={handleCloseMovie}
+        />
       </main>
       <footer className="footer">
-        <p>© 2024 Movie Listing App</p>
+        <p>© 2026 Movie Listing App</p>
       </footer>
     </div>
   );

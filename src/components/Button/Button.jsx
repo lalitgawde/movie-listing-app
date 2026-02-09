@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-function Button({ children, classes }) {
+function Button({ children, classes, ...props }) {
   return (
-    <button className={`${styles.minimise} ${classes}`}>{children}</button>
+    <button className={`${styles.minimise} ${classes}`} {...props}>
+      {children}
+    </button>
   );
 }
 

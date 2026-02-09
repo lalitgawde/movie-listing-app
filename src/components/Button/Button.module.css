@@ -13,4 +13,5 @@
   background-color: #212529;
   color: #dee2e6;
   cursor: pointer;
+  z-index: 999;
 }
