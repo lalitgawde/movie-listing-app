@@ -46,7 +46,7 @@ function MovieDetail({
   console.log("");
 
   if (!selectedMovieData) {
-    return <div>Loading...</div>;
+    return <div className={styles["loading"]}>Loading...</div>;
   }
 
   const onAddWatch = () => {

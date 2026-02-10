@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MovieList.module.css";
 import Button from "../Button/Button";
-// import { tempMovieData } from "../../data";
 import MovieItem from "../MovieItem/MovieItem";
 import Modal from "../Modal/Modal";
 

@@ -34,3 +34,10 @@
   box-shadow: 0 2.4rem 2.4rem rgba(0, 0, 0, 0.1);
   /* transform: translateY(-2px); */
 }
+
+.crossBtn {
+  right: 10px;
+  top: 9px;
+  font-size: 15px;
+  background-color: transparent;
+}

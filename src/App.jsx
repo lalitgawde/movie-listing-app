@@ -21,12 +21,17 @@ function App() {
     setSelectedId(null);
   }
 
+  function handleClearSearch() {
+    setSearchInput("");
+  }
+
   return (
     <div className="app">
       <NavBar
         search={searchInput}
         onChange={InputChangeHandler}
         count={count}
+        handleClearSearch={handleClearSearch}
       />
       <main className="main">
         <MovieList
