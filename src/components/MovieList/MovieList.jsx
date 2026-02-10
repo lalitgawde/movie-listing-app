@@ -24,7 +24,7 @@ function MovieList({ search, setCount, handleSelectMovie }) {
     async function getMovies() {
       try {
         const response = await fetch(
-          `http://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
+          `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
           { signal },
         );
 

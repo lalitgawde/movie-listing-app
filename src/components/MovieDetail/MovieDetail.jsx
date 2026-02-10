@@ -27,7 +27,7 @@ function MovieDetail({
     async function getSelectedMovie(id) {
       try {
         const response = await fetch(
-          `http://www.omdbapi.com/?i=${id}&apikey=79d86d9d`,
+          `https://www.omdbapi.com/?i=${id}&apikey=79d86d9d`,
         );
         if (!response.ok) {
           throw new Error("Failed to get movie details");
