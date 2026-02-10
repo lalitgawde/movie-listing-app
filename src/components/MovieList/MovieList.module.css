@@ -28,3 +28,20 @@
 .view-more-btn:hover {
   text-decoration: underline;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  height: 100%;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  height: 100%;
+  color: rgb(240, 42, 42);
+}

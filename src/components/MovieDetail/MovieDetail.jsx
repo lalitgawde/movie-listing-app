@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./MovieDetail.module.css";
 import Button from "../Button/Button";
 import Rating from "../Rating/Rating";
+import useFetch from "../../Hooks/useFetch";
 
 function MovieDetail({
   selectedId,
@@ -9,7 +10,16 @@ function MovieDetail({
   watchedMovies,
   handleCloseMovie,
 }) {
-  const [selectedMovieData, setSelectedMovieData] = useState(null);
+  // const [selectedMovieData, setSelectedMovieData] = useState(null);
+  const { response, loading, error } = useFetch(
+    selectedId
+      ? `https://www.omdbapi.com/?i=${selectedId}&apikey=79d86d9d`
+      : null,
+    null,
+    "Failed to get movie details",
+    true,
+  );
+  const selectedMovieData = response;
   const [userRating, setUserRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
 
@@ -22,31 +32,34 @@ function MovieDetail({
     setUserRating(rating);
   };
 
-  useEffect(() => {
-    console.log("Selected ID:", selectedId);
-    async function getSelectedMovie(id) {
-      try {
-        const response = await fetch(
-          `https://www.omdbapi.com/?i=${id}&apikey=79d86d9d`,
-        );
-        if (!response.ok) {
-          throw new Error("Failed to get movie details");
-        }
-        const data = await response.json();
-        console.log("data", data);
-        setSelectedMovieData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (selectedId) {
-      getSelectedMovie(selectedId);
-    }
-  }, [selectedId]);
-  console.log("");
+  // useEffect(() => {
+  //   console.log("Selected ID:", selectedId);
+  //   async function getSelectedMovie(id) {
+  //     try {
+  //       const response = await fetch(
+  //         `https://www.omdbapi.com/?i=${id}&apikey=79d86d9d`,
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Failed to get movie details");
+  //       }
+  //       const data = await response.json();
+  //       console.log("data", data);
+  //       setSelectedMovieData(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   if (selectedId) {
+  //     getSelectedMovie(selectedId);
+  //   }
+  // }, [selectedId]);
 
-  if (!selectedMovieData) {
+  if (loading) {
     return <div className={styles["loading"]}>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className={styles["error"]}>{error}</div>;
   }
 
   const onAddWatch = () => {

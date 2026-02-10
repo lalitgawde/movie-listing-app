@@ -3,10 +3,19 @@ import styles from "./MovieList.module.css";
 import Button from "../Button/Button";
 import MovieItem from "../MovieItem/MovieItem";
 import Modal from "../Modal/Modal";
+import useFetch from "../../Hooks/useFetch";
 
 function MovieList({ search, setCount, handleSelectMovie }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [movies, setMovies] = useState([]);
+  // const [movies, setMovies] = useState([]);
+  const {
+    response,
+    loading,
+    error,
+    setResponse,
+    fetchData: getMovies,
+  } = useFetch("", [], "Failed to fetch movies", false);
+  const movies = response && response.Search ? response.Search : [];
   const [isListingVisible, setIsListingVisible] = useState(true);
 
   useEffect(() => {
@@ -14,41 +23,59 @@ function MovieList({ search, setCount, handleSelectMovie }) {
     const signal = controller.signal;
 
     if (search.length < 3) {
-      setMovies([]);
+      setResponse([]);
       return;
     } else {
-      getMovies();
+      getMovies(
+        { signal },
+        `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
+      );
     }
+    // async function getMovies() {
+    //   try {
+    //     const response = await fetch(
+    //       `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
+    //       { signal },
+    //     );
 
-    async function getMovies() {
-      try {
-        const response = await fetch(
-          `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
-          { signal },
-        );
+    //     if (!response.ok) {
+    //       throw new Error("Failed to fetch movies");
+    //     }
 
-        if (!response.ok) {
-          throw new Error("Something went wrong with fetching movies");
-        }
-
-        const data = await response.json();
-        console.log(data);
-        if (data.Response === "False") {
-          setMovies([]);
-          setCount(0);
-          return;
-        }
-        setMovies(data.Search);
-        setCount(data.Search.length);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
+    //     const data = await response.json();
+    //     console.log(data);
+    //     if (data.Response === "False") {
+    //       setMovies([]);
+    //       setCount(0);
+    //       return;
+    //     }
+    //     setMovies(data.Search);
+    //     setCount(data.Search.length);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
     return () => {
       controller.abort();
     };
-  }, [search]);
+  }, [search, setCount, getMovies, setResponse]);
+
+  useEffect(() => {
+    if (response && response.Response === "False") {
+      setResponse([]);
+      setCount(0);
+    } else if (response && response.Search) {
+      setCount(response.Search.length);
+    }
+  }, [response, setResponse, setCount]);
+
+  if (loading) {
+    return <div className={styles["loading"]}>Loading...</div>;
+  }
+
+  if (error && error === "Failed to fetch movies") {
+    return <div className={styles["error"]}>{error}</div>;
+  }
 
   return (
     <div className={styles.list}>
@@ -58,7 +85,22 @@ function MovieList({ search, setCount, handleSelectMovie }) {
         {isListingVisible ? "-" : "+"}
       </Button>
       {isModalVisible && (
-        <Modal movies={movies} onClose={() => setIsModalVisible(false)} />
+        <Modal movies={movies} onClose={() => setIsModalVisible(false)}>
+          <h1>All Movie List</h1>
+          <ul>
+            {movies.map((movie) => (
+              <MovieItem
+                movie={movie}
+                isWatchComponent={false}
+                key={movie.imdbID}
+                onSelectMovie={(id) => {
+                  setIsModalVisible(false);
+                  handleSelectMovie(id);
+                }}
+              />
+            ))}
+          </ul>
+        </Modal>
       )}
       {movies.length > 0 && (
         <p className={styles["movie-count"]}>
@@ -71,7 +113,7 @@ function MovieList({ search, setCount, handleSelectMovie }) {
           to view more
         </p>
       )}
-      {isListingVisible && (
+      {isListingVisible && movies.length > 0 && (
         <ul>
           {movies.slice(0, 5).map((movie) => (
             <MovieItem

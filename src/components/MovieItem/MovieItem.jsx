@@ -3,7 +3,6 @@ import styles from "./MovieItem.module.css";
 import Stats from "../Stats/Stats";
 
 function MovieItem({ movie, isWatchComponent, onSelectMovie, onDeleteMovie }) {
-  console.log(movie);
   return (
     <li
       className={styles.movieItem}
