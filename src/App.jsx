@@ -23,6 +23,7 @@ function App() {
 
   function handleClearSearch() {
     setSearchInput("");
+    setCount(0);
   }
 
   return (
