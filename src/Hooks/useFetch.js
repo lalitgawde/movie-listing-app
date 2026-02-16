@@ -18,6 +18,10 @@ const useFetch = (url, initialValue, errorMsg, isInitialRun) => {
           throw new Error(errorMsg);
         }
         const data = await response.json();
+        if (data && data.Response === "False") {
+          setResponse([]);
+          throw new Error("Movie not found!");
+        }
         setResponse(data);
         setLoading(false);
       } catch (error) {

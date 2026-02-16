@@ -62,19 +62,23 @@ function MovieList({ search, setCount, handleSelectMovie }) {
 
   useEffect(() => {
     if (response && response.Response === "False") {
-      setResponse([]);
       setCount(0);
     } else if (response && response.Search) {
       setCount(response.Search.length);
     }
-  }, [response, setResponse, setCount]);
+  }, [response, setCount]);
 
   if (loading) {
-    return <div className={styles["loading"]}>Loading...</div>;
+    return (
+      <div className={`${styles.list} ${styles["loading"]}`}>Loading...</div>
+    );
   }
 
-  if (error && error === "Failed to fetch movies") {
-    return <div className={styles["error"]}>{error}</div>;
+  if (
+    error &&
+    (error === "Failed to fetch movies" || error === "Movie not found!")
+  ) {
+    return <div className={`${styles.list} ${styles["error"]}`}>{error}</div>;
   }
 
   return (
