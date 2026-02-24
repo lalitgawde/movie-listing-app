@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./MovieDetail.module.css";
 import Button from "../Button/Button";
 import Rating from "../Rating/Rating";
@@ -53,6 +53,15 @@ function MovieDetail({
   //     getSelectedMovie(selectedId);
   //   }
   // }, [selectedId]);
+
+  useEffect(() => {
+    if (selectedMovieData) {
+      document.title = `Movie | ${selectedMovieData.Title}`;
+    }
+    return () => {
+      document.title = "Movie listing app";
+    };
+  }, [selectedMovieData]);
 
   if (loading) {
     return <div className={styles["loading"]}>Loading...</div>;
