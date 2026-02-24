@@ -11,6 +11,7 @@ const useFetch = (url, initialValue, errorMsg, isInitialRun) => {
       if (urlPara !== "") {
         newUrl = url + urlPara;
       }
+      setError("");
       setLoading(true);
       try {
         const response = await fetch(newUrl, configObj);
