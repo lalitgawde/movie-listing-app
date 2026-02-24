@@ -8,6 +8,7 @@ import useFetch from "../../Hooks/useFetch";
 function MovieList({ search, setCount, handleSelectMovie }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   // const [movies, setMovies] = useState([]);
+  const timerRef = React.useRef(null);
   const {
     response,
     loading,
@@ -19,17 +20,16 @@ function MovieList({ search, setCount, handleSelectMovie }) {
   const [isListingVisible, setIsListingVisible] = useState(true);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    // const controller = new AbortController();
+    // const signal = controller.signal;
 
     if (search.length < 3) {
       setResponse([]);
       return;
     } else {
-      getMovies(
-        { signal },
-        `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
-      );
+      timerRef.current = setTimeout(() => {
+        getMovies({}, `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`);
+      }, 500);
     }
     // async function getMovies() {
     //   try {
@@ -56,7 +56,10 @@ function MovieList({ search, setCount, handleSelectMovie }) {
     //   }
     // }
     return () => {
-      controller.abort();
+      // controller.abort();
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
   }, [search, setCount, getMovies, setResponse]);
 
