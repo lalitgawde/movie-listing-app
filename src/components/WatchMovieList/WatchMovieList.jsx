@@ -4,18 +4,11 @@ import Button from "../Button/Button";
 import MovieItem from "../MovieItem/MovieItem";
 import Stats from "../Stats/Stats";
 import MovieDetail from "../MovieDetail/MovieDetail";
-import { useEffect } from "react";
+import { useLocalStorage } from "../../Hooks/useLocalStorage";
 
 function WatchMovieList({ selectedId, handleCloseMovie }) {
-  const watchList = localStorage.getItem("watchList")
-    ? JSON.parse(localStorage.getItem("watchList"))
-    : [];
   const [isListingVisible, setIsListingVisible] = useState(true);
-  const [watchedMovies, setWatchedMovies] = useState(watchList);
-
-  useEffect(() => {
-    localStorage.setItem("watchList", JSON.stringify(watchedMovies));
-  }, [watchedMovies]);
+  const [watchedMovies, setWatchedMovies] = useLocalStorage([], "watchList");
 
   const length = watchedMovies.length;
   let imdbRating = 0;
