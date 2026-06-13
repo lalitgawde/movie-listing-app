@@ -1,0 +1,66 @@
+.deleteModal-overlay {
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteModal-container {
+  background: white;
+  color: #333;
+  width: 500px;
+  max-height: calc(100vh - 80px);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.deleteModal-content {
+  padding: 10px;
+}
+
+.deleteModal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.deleteModal-actions .btn-cancel {
+  background: #ccc;
+  color: #333;
+  border: none;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deleteModal-actions .btn-ok {
+  background: #7950f2;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 2.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

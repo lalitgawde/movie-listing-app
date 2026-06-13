@@ -2,14 +2,14 @@ import React from "react";
 import styles from "./MovieItem.module.css";
 import Stats from "../Stats/Stats";
 
-function MovieItem({ movie, isWatchComponent, onSelectMovie, onDeleteMovie }) {
+function MovieItem({ movie, isWatchComponent, onSelectMovie, onClick }) {
   return (
     <li
       className={styles.movieItem}
       onClick={() => onSelectMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={movie.Title} />
       <div className={styles.details}>
-        <h2>{movie.Title}</h2>
+        <h2 title={movie.Title}>{movie.Title}</h2>
         <Stats
           year={movie.Year}
           imdbRating={movie.imdbRating}
@@ -17,7 +17,7 @@ function MovieItem({ movie, isWatchComponent, onSelectMovie, onDeleteMovie }) {
           runtime={movie.Runtime}
           isWatchComponent={isWatchComponent}
           classes={styles["btn-delete"]}
-          onClick={() => onDeleteMovie(movie.imdbID)}
+          onClick={() => onClick(movie.imdbID)}
         />
       </div>
     </li>
