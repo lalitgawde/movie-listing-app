@@ -2,6 +2,7 @@ import { useState } from "react";
 import MovieList from "./components/MovieList/MovieList";
 import NavBar from "./components/NavBar/NavBar";
 import WatchMovieList from "./components/WatchMovieList/WatchMovieList";
+import SkeletonLoader from "./components/SkeletonLoader/SkeletonLoader";
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=79d86d9d
 function App() {

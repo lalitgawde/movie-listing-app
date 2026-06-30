@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./MovieList.module.css";
 import Button from "../Button/Button";
 import MovieItem from "../MovieItem/MovieItem";
 import Modal from "../Modal/Modal";
 import useFetch from "../../Hooks/useFetch";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
+import usePagination from "../../Hooks/usePagination";
 
 function MovieList({ search, setCount, handleSelectMovie }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -16,8 +18,11 @@ function MovieList({ search, setCount, handleSelectMovie }) {
     setResponse,
     fetchData: getMovies,
   } = useFetch("", [], "Failed to fetch movies", false);
+  const controllerRef = useRef(null);
   const movies = response && response.Search ? response.Search : [];
   const [isListingVisible, setIsListingVisible] = useState(true);
+
+  const paginationObj = usePagination(movies, 9);
 
   useEffect(() => {
     // const controller = new AbortController();
@@ -28,37 +33,20 @@ function MovieList({ search, setCount, handleSelectMovie }) {
       return;
     } else {
       timerRef.current = setTimeout(() => {
-        getMovies({}, `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`);
+        getMovies(
+          {},
+          `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
+          controllerRef,
+        );
       }, 500);
     }
-    // async function getMovies() {
-    //   try {
-    //     const response = await fetch(
-    //       `https://www.omdbapi.com/?s=${search}&apikey=79d86d9d`,
-    //       { signal },
-    //     );
-
-    //     if (!response.ok) {
-    //       throw new Error("Failed to fetch movies");
-    //     }
-
-    //     const data = await response.json();
-    //     console.log(data);
-    //     if (data.Response === "False") {
-    //       setMovies([]);
-    //       setCount(0);
-    //       return;
-    //     }
-    //     setMovies(data.Search);
-    //     setCount(data.Search.length);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
     return () => {
       // controller.abort();
       if (timerRef.current) {
         clearTimeout(timerRef.current);
+      }
+      if (controllerRef.current) {
+        controllerRef.current.abort();
       }
     };
   }, [search, setCount, getMovies, setResponse]);
@@ -72,9 +60,7 @@ function MovieList({ search, setCount, handleSelectMovie }) {
   }, [response, setCount]);
 
   if (loading) {
-    return (
-      <div className={`${styles.list} ${styles["loading"]}`}>Loading...</div>
-    );
+    return <SkeletonLoader />;
   }
 
   if (
@@ -92,10 +78,13 @@ function MovieList({ search, setCount, handleSelectMovie }) {
         {isListingVisible ? "-" : "+"}
       </Button>
       {isModalVisible && (
-        <Modal movies={movies} onClose={() => setIsModalVisible(false)}>
+        <Modal
+          movies={movies}
+          onClose={() => setIsModalVisible(false)}
+          paginationProps={{ ...paginationObj }}>
           <h1>All Movie List</h1>
           <ul>
-            {movies.map((movie) => (
+            {paginationObj.currentItems.map((movie) => (
               <MovieItem
                 movie={movie}
                 isWatchComponent={false}

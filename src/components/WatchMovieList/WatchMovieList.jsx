@@ -6,6 +6,8 @@ import Stats from "../Stats/Stats";
 import MovieDetail from "../MovieDetail/MovieDetail";
 import { useLocalStorage } from "../../Hooks/useLocalStorage";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import usePagination from "../../Hooks/usePagination";
+import PaginationControls from "../Pagination/Pagination";
 
 function WatchMovieList({ selectedId, handleCloseMovie }) {
   const [isListingVisible, setIsListingVisible] = useState(true);
@@ -14,6 +16,16 @@ function WatchMovieList({ selectedId, handleCloseMovie }) {
     id: null,
   });
   const [watchedMovies, setWatchedMovies] = useLocalStorage([], "watchList");
+  const {
+    currentItems,
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    hasPrev,
+    hasNext,
+  } = usePagination(watchedMovies, 5);
 
   const length = watchedMovies.length;
   let imdbRating = 0;
@@ -104,7 +116,7 @@ function WatchMovieList({ selectedId, handleCloseMovie }) {
                 />
               </div>
               <ul>
-                {watchedMovies.map((movie) => (
+                {currentItems.map((movie) => (
                   <MovieItem
                     movie={movie}
                     isWatchComponent={true}
@@ -113,6 +125,20 @@ function WatchMovieList({ selectedId, handleCloseMovie }) {
                   />
                 ))}
               </ul>
+              {/* Your own pagination UI — full control */}
+              {totalPages > 1 && (
+                <div className="bg-gray-600 px-4! py-4! rounded-b-lg">
+                  <PaginationControls
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onNext={nextPage}
+                    onPrev={prevPage}
+                    onGoTo={goToPage}
+                    hasPrev={hasPrev}
+                    hasNext={hasNext}
+                  />
+                </div>
+              )}
             </>
           ))}
       </div>
